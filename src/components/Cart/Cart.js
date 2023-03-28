@@ -3,8 +3,11 @@ import classes from "./Cart.module.css";
 import { useContext } from "react";
 import CartContext from "../../store/cart-contex";
 import CartItem from "./CartItem";
+import Checkout from "./Checkout";
 
 export default function Cart(props) {
+
+ 
   const ctx = useContext(CartContext);
 
   const totalAmount = `$${ctx.totalAmount.toFixed(2)}`;
@@ -42,6 +45,7 @@ export default function Cart(props) {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
+      <Checkout></Checkout>
       <div className={classes.actions}>
         <button className={classes["button--alt"]} onClick={props.onHideCart}>
           Close
