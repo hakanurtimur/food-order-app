@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react";
+import React from "react";
 import Card from "../UI/Card/Card";
 import classes from "./AvailableMeals.module.css";
 import MealItem from "./MealItem/MealItem";
@@ -31,26 +31,28 @@ const DUMMY_MEALS = [
 ];
 
 const AvailableMeals = () => {
-  let fetchedMeals = [];
+  const sendMeals = async () => {
+    
+    for (const id in DUMMY_MEALS) {
+      
+      const repsonse = await fetch(
+        "https://react-http-3a15e-default-rtdb.firebaseio.com/meals.json",
+        {
+          method: "POST",
+          body: JSON.stringify(
+            {id: DUMMY_MEALS[id].id,
+              name: DUMMY_MEALS[id].name,
+              description: DUMMY_MEALS[id].description,
+              price: DUMMY_MEALS[id].price,}
+          ),
+          headers: { "Content-type": "application/json" },
+        }
+      );
+      console.log(repsonse)
+    }
+  };
 
-  const fetchMeals = useCallback(async () => {
-    const response = await fetch(
-      "https://react-http-3a15e-default-rtdb.firebaseio.com/meals.json"
-    );
-
-    const data = await response.json();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    fetchedMeals = data;
-  }, []);
-
-  useEffect(() => {
-    fetchMeals();
-  }, [fetchMeals]);
-
-  console.log(fetchedMeals);
-
-  const mealsList = fetchedMeals.map((meal) => (
+  const mealsList = DUMMY_MEALS.map((meal) => (
     <MealItem
       key={meal.id}
       id={meal.id}
@@ -64,7 +66,7 @@ const AvailableMeals = () => {
     <section className={classes.meals}>
       <Card>
         <ul>{mealsList}</ul>
-        <button onClick={fetchMeals}>FETCH</button>
+        <button onClick={sendMeals}>FETCH</button>
       </Card>
     </section>
   );
