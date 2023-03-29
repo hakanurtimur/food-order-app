@@ -57,7 +57,7 @@ const AvailableMeals = () => {
     );
   }
 
-  console.log(httpError);
+  
 
   const mealsList = meals.map((meal) => (
     <MealItem
@@ -69,7 +69,7 @@ const AvailableMeals = () => {
     ></MealItem>
   ));
 
-  console.log(meals);
+  
 
   return (
     <section className={classes.meals}>
